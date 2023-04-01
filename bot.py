@@ -1,8 +1,8 @@
 from telethon import TelegramClient, Button, events
 from telethon.utils import get_peer_id
 from aioredis import Redis
-from settings import *
-from dbf import Dbf
+from .settings import *
+from .dbf import Dbf
 import asyncio, os
 
 ############## Client Setup ###############
@@ -16,16 +16,7 @@ dB = Redis(
 )
 db = Dbf(dB)
 
-client = TelegramClient(None, 6, "eb06d4abfb49dc3eeb1aeb98ae0f581e")
-loop = asyncio.get_event_loop()
-
-
-async def start_bot(token: str) -> None:
-    await client.start(bot_token=token)
-    client.me = await client.get_me()
-    print(client.me.username, "is Online Now.")
-
-loop.run_until_complete(start_bot(BOT_TOKEN))
+client = TelegramClient(None, 6, "eb06d4abfb49dc3eeb1aeb98ae0f581e").start(bot_token=BOT_TOKEN)
 
 HELP = """
 /addch - **Add The Channel**
@@ -43,7 +34,7 @@ async def strt(e):
 
 @client.on(events.NewMessage(incoming=True, pattern="^/help$"))
 async def hlp(e):
-    e.reply(HELP)
+    await e.reply(HELP)
 
 @client.on(events.NewMessage(incoming=True, pattern="^/addch"))
 async def adch(event):
