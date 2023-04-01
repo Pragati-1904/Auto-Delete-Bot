@@ -62,7 +62,7 @@ async def adch(event):
                 sec = int(res_2.text)
             except BaseException:
                 return await conv.send_message("Invalid Input")
-            await db.set_chat_list(chat.id, sec)
+            await db.set_chat_list(get_peer_id(chat), sec)
             return await conv.send_message("Added Successfully.")
     except TimeoutError:
         pass
