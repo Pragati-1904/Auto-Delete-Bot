@@ -1,8 +1,8 @@
 from telethon import TelegramClient, Button, events
 from telethon.utils import get_peer_id
 from aioredis import Redis
-from settings import *
-from dbf import Dbf
+from .settings import *
+from .dbf import Dbf
 import asyncio, os
 
 ############## Client Setup ###############
@@ -107,7 +107,7 @@ async def lstch(event):
     chats = await db.get_chat_list()
     txt = ""
     if chats:
-        await event.answer("Processing...")
+        msg = await event.reply("Processing...")
         txt += "Channel List\n\n"
         for chat in chats.keys():
             try:
@@ -115,8 +115,9 @@ async def lstch(event):
                 txt += f"__{ent.title}__\n`{chats[chat]}s`\n\n"
             except BaseException:
                 pass
+        await msg.edit(txt)
     else:
-        return await event.answer("No Chat List Found")
+        return await event.reply("No Chat List Found")
 
 @client.on(events.NewMessage(incoming=True))
 async def deleter(e):
