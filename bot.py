@@ -1,8 +1,8 @@
 from telethon import TelegramClient, Button, events
 from telethon.utils import get_peer_id
 from aioredis import Redis
-from .settings import *
-from .dbf import Dbf
+from settings import *
+from dbf import Dbf
 import asyncio, os
 
 ############## Client Setup ###############
